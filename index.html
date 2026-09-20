@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BugBuster — Find it. Fix it. Prove it.</title>
+    <script>
+      (function() {
+        try {
+          var origFetch = typeof window !== 'undefined' ? window.fetch : undefined;
+          var activeFetch = origFetch;
+          function patchFetchProp(obj) {
+            if (!obj) return;
+            try {
+              Object.defineProperty(obj, 'fetch', {
+                configurable: true,
+                enumerable: true,
+                get: function() {
+                  return activeFetch;
+                },
+                set: function(fn) {
+                  activeFetch = fn;
+                }
+              });
+            } catch (e) {}
+          }
+          patchFetchProp(window);
+          if (typeof Window !== 'undefined' && Window.prototype) {
+            patchFetchProp(Window.prototype);
+          }
+          if (typeof globalThis !== 'undefined') {
+            patchFetchProp(globalThis);
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <meta name="description" content="Autonomous AI software engineering agent that detects vulnerabilities, generates targeted fixes, and proves correctness with isolated test execution." />
+    <meta property="og:title" content="BugBuster — Find it. Fix it. Prove it." />
+    <meta property="og:description" content="Autonomous AI software engineering agent that detects vulnerabilities, generates targeted fixes, and proves correctness with isolated test execution." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-[#0b0d10] text-[#e6edf3] antialiased selection:bg-[#238636]/30 selection:text-white">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
